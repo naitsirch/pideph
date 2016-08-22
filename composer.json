@@ -6,7 +6,7 @@
     "homepage": "https://github.com/naitsirch/pideph",
     "license": "MIT",
     "authors": [
-        { "name": "Christian S.", "email": "login.naitsirch@arcor.de" }
+        { "name": "Christian S.", "email": "naitsirch@e.mail.de" }
     ],
     "require": {
         "php": ">=5.3.8",
