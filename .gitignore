@@ -1,0 +1,5 @@
+.kdev4
+/nbproject
+/vendor
+pideph.kdev4
+*.php~

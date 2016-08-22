@@ -1,0 +1,24 @@
+{
+    "name": "naitsirch/pideph",
+    "type": "library",
+    "description": ".",
+    "keywords": ["php", "pdf", "generator", "pideph"],
+    "homepage": "https://github.com/naitsirch/pideph",
+    "license": "MIT",
+    "authors": [
+        { "name": "Christian S.", "email": "login.naitsirch@arcor.de" }
+    ],
+    "require": {
+        "php": ">=5.3.8",
+        "symfony/options-resolver": "~2.5"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "~4.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Pideph\\" : "src/Pideph/",
+            "Pideph\\Tests\\" : "tests/Pideph/"
+        }
+    }
+}
