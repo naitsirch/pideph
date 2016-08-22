@@ -1,5 +1,6 @@
 .kdev4
 /nbproject
 /vendor
+composer.phar
 pideph.kdev4
 *.php~
