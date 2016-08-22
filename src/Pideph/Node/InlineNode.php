@@ -3,7 +3,7 @@
 namespace Pideph\Node;
 
 use Pideph\Node\Collection\InlineCollection;
-use Pideph\Generator\Output;
+use Pideph\Document\Output;
 
 /**
  * InlineNode
@@ -76,8 +76,8 @@ abstract class InlineNode
 
     /**
      * Generate the node.
-     * @param \Pideph\Generator\Structure $output
-     * @return \Pideph\Generator\Structure
+     * @param \Pideph\Document\Structure $output
+     * @return \Pideph\Document\Structure
      */
     public function generate(Structure $output)
     {

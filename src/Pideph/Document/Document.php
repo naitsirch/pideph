@@ -1,10 +1,10 @@
 <?php
 
-namespace Pideph;
+namespace Pideph\Document;
 
 use Pideph\Node\Type\Page;
-use Pideph\Generator\Structure;
-use Pideph\Generator\Structure\Objects;
+use Pideph\Document\Structure;
+use Pideph\Document\Structure\Objects;
 
 /**
  * Pideph\Node\Type\Document
@@ -82,8 +82,8 @@ class Document
 
     /**
      * Generate this document.
-     * @param \Pideph\Generator\Structure $structure
-     * @return \Pideph\Generator\Structure
+     * @param \Pideph\Document\Structure $structure
+     * @return \Pideph\Document\Structure
      */
     public function generate(Structure $structure)
     {

@@ -1,9 +1,9 @@
 <?php
 
-namespace Pideph\Generator\Structure\Objects;
+namespace Pideph\Document\Structure\Objects;
 
 /**
- * Pideph\Generator\Structure\Objects\Catalog
+ * Pideph\Document\Structure\Objects\Catalog
  *
  * @author naitsirch <login.naitsirch@arcor.de>
  */
@@ -37,7 +37,7 @@ class Catalog extends BaseObject
      * (Required; shall be an indirect reference) The page tree node that
      * shall be the root of the document’s page tree (see 7.7.3, "Page Tree").
      * @PDFType dictionary
-     * @var \Pideph\Generator\Structure\Objects\Pages
+     * @var \Pideph\Document\Structure\Objects\Pages
      */
     protected $pages;
 
@@ -73,7 +73,7 @@ class Catalog extends BaseObject
         return $this->pages;
     }
 
-    public function setPages(\Pideph\Generator\Structure\Objects\Pages $pages)
+    public function setPages(\Pideph\Document\Structure\Objects\Pages $pages)
     {
         $this->pages = $pages;
     }

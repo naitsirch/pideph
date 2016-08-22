@@ -1,9 +1,9 @@
 <?php
 
-namespace Pideph\Generator\Structure\Objects;
+namespace Pideph\Document\Structure\Objects;
 
 /**
- * Pideph\Generator\Structure\Objects\BaseObject
+ * Pideph\Document\Structure\Objects\BaseObject
  *
  * @author naitsirch <login.naitsirch@arcor.de>
  */

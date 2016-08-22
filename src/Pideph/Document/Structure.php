@@ -1,9 +1,9 @@
 <?php
 
-namespace Pideph\Generator;
+namespace Pideph\Document;
 
 /**
- * Pideph\Generator\Structure
+ * Pideph\Document\Structure
  *
  * @author naitsirch <login.naitsirch@arcor.de>
  */

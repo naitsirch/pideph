@@ -29,7 +29,7 @@ class Catalog extends BaseObject
      * (Required; shall be an indirect reference) The page tree node that
      * shall be the root of the document’s page tree (see 7.7.3, "Page Tree").
      * @PDFType dictionary
-     * @var \Pideph\Generator\Structure\Objects\Pages
+     * @var \Pideph\Document\Structure\Objects\Pages
      */
     protected $pages;
 

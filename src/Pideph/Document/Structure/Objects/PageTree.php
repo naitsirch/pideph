@@ -1,9 +1,9 @@
 <?php
 
-namespace Pideph\Generator\Structure\Objects;
+namespace Pideph\Document\Structure\Objects;
 
 /**
- * Pideph\Generator\Structure\Objects\PageTree
+ * Pideph\Document\Structure\Objects\PageTree
  *
  * @author naitsirch <login.naitsirch@arcor.de>
  */

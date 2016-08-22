@@ -7,7 +7,7 @@ use Pideph\Document;
 use Pideph\Intermediate\DomProcessor;
 
 /**
- * Pideph\Generator
+ * Pideph\Document
  *
  * @author naitsirch <login.naitsirch@arcor.de>
  */
