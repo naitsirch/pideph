@@ -8,7 +8,7 @@ use Pideph\Node\InlineNode;
 /**
  * Paragraph
  *
- * @author naitsirch <login.naitsirch@arcor.de>
+ * @author naitsirch <naitsirch@e.mail.de>
  */
 class Paragraph extends BlockNode
 {

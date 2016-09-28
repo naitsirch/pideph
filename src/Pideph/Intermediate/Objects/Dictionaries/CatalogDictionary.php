@@ -5,7 +5,7 @@ namespace Pideph\Intermediate\Objects\Dictionaries;
 /**
  * Pideph\Intermediate\Objects\Dictionaries\CatalogDictionary
  *
- * @author naitsirch <login.naitsirch@arcor.de>
+ * @author naitsirch <naitsirch@e.mail.de>
  */
 class CatalogDictionary extends Dictionary
 {

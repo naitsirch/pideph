@@ -7,7 +7,7 @@ use Pideph\Node\InlineNode;
 /**
  * Pideph\Node\Collection\InlineCollection
  *
- * @author naitsirch <login.naitsirch@arcor.de>
+ * @author naitsirch <naitsirch@e.mail.de>
  */
 class InlineCollection implements \IteratorAggregate
 {

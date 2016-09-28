@@ -5,7 +5,7 @@ namespace Pideph\Intermediate\Objects\Dictionaries;
 /**
  * Pideph\Intermediate\Objects\Dictionaries\PagesDictionary
  *
- * @author naitsirch <login.naitsirch@arcor.de>
+ * @author naitsirch <naitsirch@e.mail.de>
  */
 class PagesDictionary extends Dictionary
 {

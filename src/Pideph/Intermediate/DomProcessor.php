@@ -12,7 +12,7 @@ use Pideph\Intermediate\DomMapping\MappingResult;
 /**
  * Pideph\Intermediate\DomProcessor
  *
- * @author naitsirch <login.naitsirch@arcor.de>
+ * @author naitsirch <naitsirch@e.mail.de>
  */
 class DomProcessor
 {

@@ -8,7 +8,7 @@ use Pideph\Node\BlockNode;
 /**
  * Pideph\Node\Type\Page
  *
- * @author naitsirch <login.naitsirch@arcor.de>
+ * @author naitsirch <naitsirch@e.mail.de>
  */
 class Page extends BlockNode
 {

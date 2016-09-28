@@ -7,7 +7,7 @@ use Pideph\Node\InlineNode;
 /**
  * Anchor
  *
- * @author naitsirch <login.naitsirch@arcor.de>
+ * @author naitsirch <naitsirch@e.mail.de>
  */
 class Anchor extends InlineNode
 {

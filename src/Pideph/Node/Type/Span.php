@@ -7,7 +7,7 @@ use Pideph\Node\InlineNode;
 /**
  * Span
  *
- * @author naitsirch <login.naitsirch@arcor.de>
+ * @author naitsirch <naitsirch@e.mail.de>
  */
 class Span extends InlineNode
 {

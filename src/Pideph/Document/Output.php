@@ -5,7 +5,7 @@ namespace Pideph\Document;
 /**
  * Pideph\Document\Output
  *
- * @author naitsirch <login.naitsirch@arcor.de>
+ * @author naitsirch <naitsirch@e.mail.de>
  */
 class Output
 {

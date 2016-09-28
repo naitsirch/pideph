@@ -5,7 +5,7 @@ namespace Pideph\Document\Structure\Objects;
 /**
  * Pideph\Document\Structure\Objects\PageTree
  *
- * @author naitsirch <login.naitsirch@arcor.de>
+ * @author naitsirch <naitsirch@e.mail.de>
  */
 class PageTree extends BaseObject
 {

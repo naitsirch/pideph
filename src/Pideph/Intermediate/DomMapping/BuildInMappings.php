@@ -10,7 +10,7 @@ use Pideph\Intermediate\Objects\ObjectInterface;
 /**
  * Pideph\Intermediate\DomMapping\BuildInMappings
  *
- * @author naitsirch <login.naitsirch@arcor.de>
+ * @author naitsirch <naitsirch@e.mail.de>
  */
 class BuildInMappings implements DomMappingInterface
 {

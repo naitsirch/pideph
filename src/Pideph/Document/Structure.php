@@ -5,7 +5,7 @@ namespace Pideph\Document;
 /**
  * Pideph\Document\Structure
  *
- * @author naitsirch <login.naitsirch@arcor.de>
+ * @author naitsirch <naitsirch@e.mail.de>
  */
 class Structure
 {

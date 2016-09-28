@@ -9,7 +9,7 @@ use Pideph\Document\Structure\Objects;
 /**
  * Pideph\Node\Type\Document
  *
- * @author naitsirch <login.naitsirch@arcor.de>
+ * @author naitsirch <naitsirch@e.mail.de>
  */
 class Document
 {

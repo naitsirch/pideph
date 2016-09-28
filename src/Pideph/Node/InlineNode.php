@@ -8,7 +8,7 @@ use Pideph\Document\Output;
 /**
  * InlineNode
  *
- * @author naitsirch <login.naitsirch@arcor.de>
+ * @author naitsirch <naitsirch@e.mail.de>
  */
 abstract class InlineNode
 {

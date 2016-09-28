@@ -5,7 +5,7 @@ namespace Pideph\Intermediate\Objects;
 /**
  * Pideph\Intermediate\Objects\BaseObject
  *
- * @author naitsirch <login.naitsirch@arcor.de>
+ * @author naitsirch <naitsirch@e.mail.de>
  */
 abstract class BaseObject implements ObjectInterface
 {

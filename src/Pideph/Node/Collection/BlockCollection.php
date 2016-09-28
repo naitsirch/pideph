@@ -7,7 +7,7 @@ use Pideph\Node\BlockNode;
 /**
  * Pideph\Node\Collection\BlockCollection
  *
- * @author naitsirch <login.naitsirch@arcor.de>
+ * @author naitsirch <naitsirch@e.mail.de>
  */
 class BlockCollection extends InlineCollection
 {

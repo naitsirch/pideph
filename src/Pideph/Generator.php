@@ -9,7 +9,7 @@ use Pideph\Intermediate\DomProcessor;
 /**
  * Pideph\Document
  *
- * @author naitsirch <login.naitsirch@arcor.de>
+ * @author naitsirch <naitsirch@e.mail.de>
  */
 class Generator
 {

@@ -5,7 +5,7 @@ namespace Pideph\Document\Structure\Objects;
 /**
  * Pideph\Document\Structure\Objects\BaseObject
  *
- * @author naitsirch <login.naitsirch@arcor.de>
+ * @author naitsirch <naitsirch@e.mail.de>
  */
 class BaseObject extends \stdClass
 {

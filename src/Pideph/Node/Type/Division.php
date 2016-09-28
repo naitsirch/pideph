@@ -7,7 +7,7 @@ use Pideph\Node\BlockNode;
 /**
  * Pideph\Node\Type\Division
  *
- * @author naitsirch <login.naitsirch@arcor.de>
+ * @author naitsirch <naitsirch@e.mail.de>
  */
 class Division extends BlockNode
 {
