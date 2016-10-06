@@ -1,0 +1,62 @@
+%PDF-1.5 %âãÏÓ
+
+1 0 obj<</Count 1/Kids[7 0 R]/Type/Pages>> endobj 3 0 obj<</ModDate(D:20040819171125-07'00')/CreationDate(D:20040819161955-07'00')/Title(MyFile)>> 
+endobj 5 0 obj<</Pages 1 0 R/Type/Catalog/Metadata 21 0 R>> endobj 7 0 obj<</Type/Page/Parent 1 0 R/Rotate 0/MediaBox[0.0 0.0 612.0 792.0]/CropBox[0.0 0.0 612.0 792.0]/Resources<<>>>> endobj 9 0 obj null endobj 14 0 obj null endobj 21 0 obj<</Length 3193 /Type/Metadata/Subtype/XML>> stream <?xpacket begin='ï»¿' id='W5M0MpCehiHzreSzNTczkc9d'?><?adobe-xap-filters esc="CRLF"?> <x:xmpmeta xmlns:x='adobe:ns:meta/' x:xmptk='XMP toolkit 2.9.1-14, framework 1.6'><rdf:RDF xmlns:rdf='http://www.w3.org/1999/02/22-rdf-syntax-ns#' xmlns:iX='http://ns.adobe.com/iX/1.0/'> </rdf:RDF></x:xmpmeta><?xpacket end='w'?>endstream endobj 
+
+xref
+
+0 22
+
+0000000002 65535 f
+
+0000000016 00000 n
+
+0000000004 00001 f
+
+0000000066 00000 n
+
+0000000006 00001 f
+
+0000000169 00000 n
+
+0000000008 00001 f
+
+0000000229 00000 n
+
+0000000010 00001 f
+
+0000000353 00000 n
+
+0000000011 00001 f
+
+0000000012 00001 f
+
+0000000013 00001 f
+
+0000000015 00001 f
+
+0000000373 00000 n
+
+0000000016 00001 f
+
+0000000017 00001 f
+
+0000000018 00001 f
+
+0000000019 00001 f
+
+0000000020 00001 f
+
+0000000000 00001 f
+
+0000000394 00000 n
+
+trailer
+
+<</Size 22/Root 5 0 R/Info 3 0 R/ID[<9ea8983ff0d0394493c818f521bf950c><31ff1de0d464094cb2f6e18a012e3fbf>]>>
+
+startxref
+
+1637
+
+%%EOF
