@@ -5,6 +5,7 @@ namespace Pideph\Document;
 use Pideph\Node\Type\Page;
 use Pideph\Document\Structure;
 use Pideph\Document\Structure\Objects;
+use Pideph\Document\Structure\Objects\Catalog;
 
 /**
  * Pideph\Node\Type\Document
@@ -13,50 +14,25 @@ use Pideph\Document\Structure\Objects;
  */
 class Document
 {
-    private $pages = array();
-    private $pagePointer = 0;
     private $version;
+
+    /**
+     * The document catalog
+     * @var Catalog
+     */
+    private $catalog;
     
     public function __construct()
     {
-        
-    }
-    
-    public function addPage()
-    {
-        $this->pages[] = new Page(null, $this, count($this->pages));
-        $this->pagePointer = count($this->pages) - 1;
-    }
-    
-    /**
-     * Returns the current page.
-     * @return Page
-     */
-    public function page($number = null)
-    {
-        $count = count($this->pages);
-        if (0 == $count) {
-            $this->addPage();
-            $count++;
-        }
-        
-        if (null === $number) {
-            return $this->pages[$this->pagePointer];
-        } else if ($number <= 0) {
-            throw new \InvalidArgumentException("This document does not have page number $number.");
-        } else if ($number > $count) {
-            throw new \InvalidArgumentException("This document does not have $number pages.");
-        }
-        return $this->pages[$number - 1];
+        $this->catalog = new Catalog();
     }
 
     /**
-     * Returns all pages.
-     * @return Page[]
+     * @return Catalog
      */
-    public function pages()
+    public function getCatalog()
     {
-        return $this->pages;
+        return $this->catalog;
     }
 
     /**
@@ -82,22 +58,15 @@ class Document
 
     /**
      * Generate this document.
-     * @param \Pideph\Document\Structure $structure
-     * @return \Pideph\Document\Structure
+     * @return string
      */
-    public function generate(Structure $structure)
+    public function generate()
     {
-        // document catalog
-        $catalog = new Objects\Catalog();
-        $catalog->setVersion($this->version());
-        $structure->addObject($catalog);
+        // print PDF header with some unicode characters, so that this file is
+        // regarded as binary
+        $content = "%PDF-1.4 %"."\xC6\xA5"."\xC8\x8B"."\xE1\xB8\x8B"."\xD0\xB5"."\xD1\x80"."\xD2\xBB"."\n\n";
+        $content .= "%%EOF";
 
-        foreach ($this->pages() as $page) {
-            $page->generate($structure);
-        }
-
-        $structure->add("%%EOF");
-
-        return $structure;
+        return $content;
     }
 }

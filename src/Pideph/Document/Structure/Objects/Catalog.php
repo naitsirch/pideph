@@ -7,15 +7,9 @@ namespace Pideph\Document\Structure\Objects;
  *
  * @author naitsirch <naitsirch@e.mail.de>
  */
-class Catalog extends BaseObject
+class Catalog extends TypedDictionary
 {
-    /**
-     * (Required) The type of PDF object that this dictionary describes;
-     * shall be Catalog for the catalog dictionary.
-     * @PDFType name
-     * @var string
-     */
-    protected $type = '/Catalog';
+    const TYPE = 'Catalog';
 
     /**
      * (Optional; PDF 1.4) The version of the PDF specification to which the
@@ -36,19 +30,31 @@ class Catalog extends BaseObject
     /**
      * (Required; shall be an indirect reference) The page tree node that
      * shall be the root of the document’s page tree (see 7.7.3, "Page Tree").
-     * @PDFType dictionary
-     * @var \Pideph\Document\Structure\Objects\Pages
+     * @var PageTree
      */
-    protected $pages;
+    private $pages;
 
-    public function getType()
-    {
-        return $this->type;
-    }
+    private $pageMode;
 
-    public function setType($type)
+    private $pageLayout;
+
+    private $outlines;
+
+    private $openAction;
+
+    private $names;
+
+    private $acroForm;
+
+    private $viewerPreferences;
+
+    private $structTreeRoot;
+
+    private $metadata;
+
+    public function __construct()
     {
-        $this->type = $type;
+        $this->setType(self::TYPE);
     }
 
     public function getVersion()
@@ -68,13 +74,27 @@ class Catalog extends BaseObject
         return $this;
     }
 
+    /**
+     * @return PageTree
+     */
     public function getPages()
     {
         return $this->pages;
     }
 
-    public function setPages(\Pideph\Document\Structure\Objects\Pages $pages)
+    protected static function getStaticDictionaryFields()
     {
-        $this->pages = $pages;
+        return array(
+            'pages',
+            'pageMode',
+            'pageLayout',
+            'outlines',
+            'openAction',
+            'names',
+            'acroForm',
+            'viewerPreferences',
+            'structTreeRoot',
+            'metadata',
+        );
     }
 }
