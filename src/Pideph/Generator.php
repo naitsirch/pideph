@@ -3,7 +3,8 @@
 namespace Pideph;
 
 use DOMDocument;
-use Pideph\Document;
+use Pideph\Document\Document;
+use Pideph\Document\StringGenerator;
 use Pideph\Intermediate\DomProcessor;
 
 /**
@@ -13,24 +14,11 @@ use Pideph\Intermediate\DomProcessor;
  */
 class Generator
 {
-    private $document;
-    private $structure;
-    private $output;
-
-    public function __construct(Document $document)
+    public function generate(Document $document)
     {
-        $this->document = $document;
-    }
-
-    public function generate()
-    {
-        // generate structure from node tree
-        $this->structure = new Structure();
-        $this->document->generate($this->structure);
-    
-        $this->output = new Output();
-
-        return $this->output;
+        $generator = new StringGenerator($document);
+        $generator->generate();
+        return $generator->getResult();
     }
 
     public static function fromHtml($html)
