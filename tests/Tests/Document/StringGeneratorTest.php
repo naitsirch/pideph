@@ -1,16 +1,17 @@
 <?php
 
-namespace Pideph\Tests\File;
+namespace Pideph\Tests\Document;
 
 use Pideph\Document\Document;
+use Pideph\Document\StringGenerator;
 use Pideph\Document\Structure\Objects\Page;
 
 /**
- * Pideph\Tests\File\FileTest
+ * Pideph\Tests\Document\StringGeneratorTest
  *
  * @author naitsirch
  */
-class FileTest extends \PHPUnit_Framework_TestCase
+class StringGeneratorTest extends \PHPUnit_Framework_TestCase
 {
     public function testSimpleFile()
     {
@@ -20,6 +21,11 @@ class FileTest extends \PHPUnit_Framework_TestCase
         $page->setMediaBox(array(0, 0, 100, 100));
 
 
-        $doc->generate();
+        $generator = new StringGenerator($doc);
+        $generator->generate();
+
+        $content = $generator->getResult();
+
+        return;
     }
 }
