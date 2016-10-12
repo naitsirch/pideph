@@ -20,7 +20,7 @@
 
 #### Literal Strings
 * enclosed in parentheses
-* Any characters may appear in string  except  unbalanced  parentheses
+* Any characters may appear in string except unbalanced parentheses
 * Examples:
   * `(This is a string)`
   * `(Strings may contain newlines  
