@@ -19,7 +19,13 @@ class StringGenerator
      * Stores all container objects
      * @var \SplObjectStorage
      */
-    private $dictionaryStore;
+    private $indirectObjectStorage;
+
+    /**
+     * Byte offset of the "xref" keyword of the last cross reference section.
+     * @var int
+     */
+    private $lastXrefSectionOffset;
 
     public function __construct(Document $document)
     {
@@ -28,11 +34,13 @@ class StringGenerator
 
     public function generate()
     {
-        $this->dictionaryStore = new \SplObjectStorage();
+        $this->indirectObjectStorage = new \SplObjectStorage();
 
         $this->result = "%PDF-1.4 %"."\xC6\xA5"."\xC8\x8B"."\xE1\xB8\x8B"."\xD0\xB5"."\xD1\x80"."\xD2\xBB"."\n\n";
 
-        $this->result .= $this->serializeIndirectObjects();
+        $this->writeIndirectObjects();
+        $this->writeCrossReferenceTable();
+        $this->writeTrailer();
 
         $this->result .= "%%EOF";
     }
@@ -42,33 +50,37 @@ class StringGenerator
         return $this->result;
     }
 
-    private function serializeIndirectObjects()
+    private function writeIndirectObjects()
     {
         $this->collectIndirectObjects($this->document->getCatalog());
 
-        $result = '';
-        foreach ($this->dictionaryStore as $dictionary) {
-            $storeInfo = $this->dictionaryStore[$dictionary];
-            $result .= $storeInfo['index'] . " 0 obj " . $storeInfo['serialized'] . " endobj\n";
+        $result = &$this->result;
+
+        foreach ($this->indirectObjectStorage as $object) {
+            $info = $this->indirectObjectStorage[$object];
+            $info['offset'] = strlen($result);
+            $this->indirectObjectStorage[$object] = $info;
+
+            $result .= $info['index'] . " 0 obj " . $info['serialized'] . " endobj\n";
         }
 
-        return $result;
+        $result .= "\n";
     }
 
     private function collectIndirectObjects($value)
     {
         if ($value instanceof Dictionary) {
-            if ($this->dictionaryStore->contains($value)) {
-                $storeInfo = $this->dictionaryStore->offsetGet($value);
+            if ($this->indirectObjectStorage->contains($value)) {
+                $storeInfo = $this->indirectObjectStorage->offsetGet($value);
                 return $storeInfo['index'] . ' 0 R';
             }
-            $index = $this->dictionaryStore->count() + 1;
+            $index = $this->indirectObjectStorage->count() + 1;
 
             $storeInfo = array(
                 'index' => $index,
                 'serialized' => null,
             );
-            $this->dictionaryStore->attach($value, $storeInfo);
+            $this->indirectObjectStorage->attach($value, $storeInfo);
 
             $serializedValues = array();
             foreach ($value as $key => $childValue) {
@@ -79,7 +91,7 @@ class StringGenerator
 
             $storeInfo['serialized'] = '<< ' . implode(' ', $serializedValues) . ' >>';
 
-            $this->dictionaryStore->attach($value, $storeInfo);
+            $this->indirectObjectStorage->attach($value, $storeInfo);
 
             return $storeInfo['index'] . ' 0 R';
         } else if ($value instanceof Name) {
@@ -106,5 +118,36 @@ class StringGenerator
         }
 
         throw new \Exception(sprintf('Value of type "%s" is not serializable.', gettype($value)));
+    }
+
+    private function writeCrossReferenceTable()
+    {
+        $result = &$this->result;
+
+        $this->lastXrefSectionOffset = strlen($result);
+
+        $result .= "xref\n";
+        $result .= '0 ' . ($this->indirectObjectStorage->count() + 1) . "\n";
+        $result .= "0000000000 65535 f \n";
+
+        foreach ($this->indirectObjectStorage as $dictionary) {
+            $info = $this->indirectObjectStorage[$dictionary];
+            $result .= str_pad($info['offset'], 10, '0', STR_PAD_LEFT) . " 00000 n \n";
+        }
+    }
+
+    private function writeTrailer()
+    {
+        $result = &$this->result;
+
+        $size = $this->indirectObjectStorage->count() + 1;
+        $rootInfo = $this->indirectObjectStorage[$this->document->getCatalog()];
+        $rootRef = $rootInfo['index'] . ' 0 R';
+
+        $result .= "trailer\n";
+        $result .= "<< /Size $size /Root $rootRef >>\n";
+
+        $result .= "startxref\n";
+        $result .= $this->lastXrefSectionOffset . "\n";
     }
 }
