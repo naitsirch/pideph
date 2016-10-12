@@ -23,7 +23,7 @@ abstract class TypedDictionary extends Dictionary
 
     protected function setType($type)
     {
-        $this->type = $type;
+        $this->type = new Name($type);
     }
 
     public function offsetExists($offset)
@@ -91,10 +91,11 @@ abstract class TypedDictionary extends Dictionary
 
     public function getIterator()
     {
-        $data = array('type' => $this->type);
+        $data = array('Type' => $this->type);
 
         foreach ($this->getStaticDictionaryFields() as $field) {
-            $getField = 'get' . ucfirst($field);
+            $field = ucfirst($field);
+            $getField = 'get' . $field;
             $data[$field] = $this->$getField();
         }
 

@@ -3,6 +3,7 @@
 namespace Pideph\Document;
 
 use Pideph\Document\Structure\Objects\Dictionary;
+use Pideph\Document\Structure\Objects\Name;
 
 /**
  * Pideph\Document\StringGenerator
@@ -31,7 +32,7 @@ class StringGenerator
 
         $this->result = "%PDF-1.4 %"."\xC6\xA5"."\xC8\x8B"."\xE1\xB8\x8B"."\xD0\xB5"."\xD1\x80"."\xD2\xBB"."\n\n";
 
-        $this->result .= $this->generateDirectObjects();
+        $this->result .= $this->serializeIndirectObjects();
 
         $this->result .= "%%EOF";
     }
@@ -41,46 +42,38 @@ class StringGenerator
         return $this->result;
     }
 
-    private function generateDirectObjects()
+    private function serializeIndirectObjects()
     {
-        $this->walkObjectTree($this->document->getCatalog());
+        $this->collectIndirectObjects($this->document->getCatalog());
 
         $result = '';
         foreach ($this->dictionaryStore as $dictionary) {
             $storeInfo = $this->dictionaryStore[$dictionary];
-            $result .= $storeInfo['index'] . " 0 obj" . $storeInfo['serialized'] . "endobj\n";
+            $result .= $storeInfo['index'] . " 0 obj " . $storeInfo['serialized'] . " endobj\n";
         }
 
         return $result;
     }
 
-    private function walkObjectTree($value)
+    private function collectIndirectObjects($value)
     {
         if ($value instanceof Dictionary) {
             if ($this->dictionaryStore->contains($value)) {
                 $storeInfo = $this->dictionaryStore->offsetGet($value);
-                return $storeInfo['reference'];
+                return $storeInfo['index'] . ' 0 R';
             }
             $index = $this->dictionaryStore->count() + 1;
-            $reference = "[$index 0 R]";
 
             $storeInfo = array(
                 'index' => $index,
-                'reference' => $reference,
                 'serialized' => null,
             );
             $this->dictionaryStore->attach($value, $storeInfo);
 
             $serializedValues = array();
             foreach ($value as $key => $childValue) {
-                if (is_string($childValue)) {
-                    if (strpos($childValue, '/') !== false) {
-                        $msg = 'Dictionary keys must not contain a slash. The key "%s" is invalid.';
-                        throw new \Exception(sprintf($msg, $childValue));
-                    }
-                    $serializedValues[] = "/$key /$childValue";
-                } else if ($childValue !== null) {
-                    $serializedValues[] = "/$key " . $this->walkObjectTree($childValue);
+                if ($childValue !== null) {
+                    $serializedValues[] = "/$key " . $this->collectIndirectObjects($childValue);
                 }
             }
 
@@ -88,16 +81,18 @@ class StringGenerator
 
             $this->dictionaryStore->attach($value, $storeInfo);
 
-            return $reference;
+            return $storeInfo['index'] . ' 0 R';
+        } else if ($value instanceof Name) {
+            return '/' . $value->getName();
         } else if (is_array($value)) {
             $length = count($value);
-            $serializedValues = [];
+            $serializedValues = array();
             for ($i = 0; $i < $length; $i++) {
                 if (!isset($value[$i])) {
                     $msg = 'Only purely indexed arrays are allowed. But we got an array with these keys: "%s". Use a Dictionary instead.';
                     throw new \Exception(sprintf($msg, implode(', ', array_keys($value))));
                 }
-                $serializedValues[] = $this->walkObjectTree($value[$i]);
+                $serializedValues[] = $this->collectIndirectObjects($value[$i]);
             }
             return '[' . implode(' ', $serializedValues) . ']';
         } else if (is_string($value)) {
