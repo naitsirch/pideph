@@ -55,6 +55,8 @@ class Catalog extends TypedDictionary
     public function __construct()
     {
         $this->setType(self::TYPE);
+
+        $this->pages = new PageTree();
     }
 
     public function getVersion()
@@ -82,7 +84,97 @@ class Catalog extends TypedDictionary
         return $this->pages;
     }
 
-    protected static function getStaticDictionaryFields()
+    public function getPageMode()
+    {
+        return $this->pageMode;
+    }
+
+    public function setPageMode($pageMode)
+    {
+        $this->pageMode = $pageMode;
+    }
+
+    public function getPageLayout()
+    {
+        return $this->pageLayout;
+    }
+
+    public function setPageLayout($pageLayout)
+    {
+        $this->pageLayout = $pageLayout;
+    }
+
+    public function getOutlines()
+    {
+        return $this->outlines;
+    }
+
+    public function setOutlines($outlines)
+    {
+        $this->outlines = $outlines;
+    }
+
+    public function getOpenAction()
+    {
+        return $this->openAction;
+    }
+
+    public function setOpenAction($openAction)
+    {
+        $this->openAction = $openAction;
+    }
+
+    public function getNames()
+    {
+        return $this->names;
+    }
+
+    public function setNames($names)
+    {
+        $this->names = $names;
+    }
+
+    public function getAcroForm()
+    {
+        return $this->acroForm;
+    }
+
+    public function setAcroForm($acroForm)
+    {
+        $this->acroForm = $acroForm;
+    }
+
+    public function getViewerPreferences()
+    {
+        return $this->viewerPreferences;
+    }
+
+    public function setViewerPreferences($viewerPreferences)
+    {
+        $this->viewerPreferences = $viewerPreferences;
+    }
+
+    public function getStructTreeRoot()
+    {
+        return $this->structTreeRoot;
+    }
+
+    public function setStructTreeRoot($structTreeRoot)
+    {
+        $this->structTreeRoot = $structTreeRoot;
+    }
+
+    public function getMetadata()
+    {
+        return $this->metadata;
+    }
+
+    public function setMetadata($metadata)
+    {
+        $this->metadata = $metadata;
+    }
+
+    protected function getStaticDictionaryFields()
     {
         return array(
             'pages',

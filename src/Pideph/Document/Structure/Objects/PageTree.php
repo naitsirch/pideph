@@ -58,7 +58,7 @@ class PageTree extends TypedDictionary
         return $this->count;
     }
 
-    protected static function getStaticDictionaryFields()
+    protected function getStaticDictionaryFields()
     {
         return array(
             'count',

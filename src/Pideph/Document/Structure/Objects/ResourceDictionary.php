@@ -96,7 +96,7 @@ class ResourceDictionary extends TypedDictionary
         return $this->pattern;
     }
 
-    protected static function getStaticDictionaryFields()
+    protected function getStaticDictionaryFields()
     {
         return array(
             'colorSpace',

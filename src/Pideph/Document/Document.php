@@ -55,18 +55,4 @@ class Document
         }
         return $this;
     }
-
-    /**
-     * Generate this document.
-     * @return string
-     */
-    public function generate()
-    {
-        // print PDF header with some unicode characters, so that this file is
-        // regarded as binary
-        $content = "%PDF-1.4 %"."\xC6\xA5"."\xC8\x8B"."\xE1\xB8\x8B"."\xD0\xB5"."\xD1\x80"."\xD2\xBB"."\n\n";
-        $content .= "%%EOF";
-
-        return $content;
-    }
 }

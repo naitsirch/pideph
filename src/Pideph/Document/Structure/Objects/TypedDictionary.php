@@ -7,7 +7,7 @@ namespace Pideph\Document\Structure\Objects;
  *
  * @author naitsirch <naitsirch@e.mail.de>
  */
-class TypedDictionary extends Dictionary
+abstract class TypedDictionary extends Dictionary
 {
     private $type;
 
@@ -28,7 +28,7 @@ class TypedDictionary extends Dictionary
 
     public function offsetExists($offset)
     {
-        $fields = static::getStaticDictionaryFields();
+        $fields = $this->getStaticDictionaryFields();
 
         return 'type' === $offset
             || in_array($offset, $fields)
@@ -38,7 +38,7 @@ class TypedDictionary extends Dictionary
 
     public function offsetGet($offset)
     {
-        $fields = static::getStaticDictionaryFields();
+        $fields = $this->getStaticDictionaryFields();
 
         if ('type' === $offset) {
             return $this->type;
@@ -53,7 +53,7 @@ class TypedDictionary extends Dictionary
 
     public function offsetSet($offset, $value)
     {
-        $fields = static::getStaticDictionaryFields();
+        $fields = $this->getStaticDictionaryFields();
 
         if (in_array($offset, $fields)) {
             $setOffset = 'set' . ucfirst($offset);
@@ -72,7 +72,7 @@ class TypedDictionary extends Dictionary
 
     public function offsetUnset($offset)
     {
-        $fields = static::getStaticDictionaryFields();
+        $fields = $this->getStaticDictionaryFields();
 
         if (in_array($offset, $fields)) {
             $setOffset = 'set' . ucfirst($offset);
@@ -93,7 +93,7 @@ class TypedDictionary extends Dictionary
     {
         $data = array('type' => $this->type);
 
-        foreach (static::getStaticDictionaryFields() as $field) {
+        foreach ($this->getStaticDictionaryFields() as $field) {
             $getField = 'get' . ucfirst($field);
             $data[$field] = $this->$getField();
         }
@@ -101,5 +101,5 @@ class TypedDictionary extends Dictionary
         return new \ArrayIterator(array_merge($data, $this->data));
     }
 
-    protected static function getStaticDictionaryFields();
+    protected abstract function getStaticDictionaryFields();
 }

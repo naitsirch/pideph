@@ -199,7 +199,7 @@ class Page extends TypedDictionary
     }
 
 
-    protected static function getStaticDictionaryFields()
+    protected function getStaticDictionaryFields()
     {
         return array(
             'annots',

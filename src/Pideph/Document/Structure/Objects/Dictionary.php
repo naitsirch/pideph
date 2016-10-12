@@ -9,7 +9,7 @@ namespace Pideph\Document\Structure\Objects;
  */
 class Dictionary implements \ArrayAccess, \IteratorAggregate
 {
-    private $data = array();
+    protected $data = array();
 
     public function add($key, $value)
     {
