@@ -23,7 +23,8 @@ class Generator
 
     public static function fromHtml($html)
     {
-        $dom = DOMDocument::loadHTML($html);
+        $dom = new \DOMDocument();
+        $dom->loadHTML($html);
         $processor = new DomProcessor($dom);
         $processor->generate();
     }
