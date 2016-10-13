@@ -9,6 +9,9 @@ namespace Pideph\Document\Structure\Objects;
  */
 abstract class TypedDictionary extends Dictionary
 {
+    /**
+     * @var Node
+     */
     private $type;
 
     public function add($key, $value)
@@ -16,6 +19,10 @@ abstract class TypedDictionary extends Dictionary
         $this->offsetSet($key, $value);
     }
 
+    /**
+     * Returns the type of this dictionary.
+     * @return Node
+     */
     public function getType()
     {
         return $this->type;

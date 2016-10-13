@@ -25,7 +25,7 @@ class Catalog extends TypedDictionary
      * @PDFType name
      * @var string PDF Version [1.0 - 1.7]
      */
-    protected $version = '1.0';
+    private $version = '1.0';
 
     /**
      * (Required; shall be an indirect reference) The page tree node that
@@ -59,6 +59,10 @@ class Catalog extends TypedDictionary
         $this->pages = new PageTree();
     }
 
+    /**
+     * Returns the version of the document.
+     * @return Name
+     */
     public function getVersion()
     {
         return $this->version;
@@ -67,11 +71,11 @@ class Catalog extends TypedDictionary
     public function setVersion($version)
     {
         $vp = explode('.', $version);
-        if (count($vp) != 2 || $vp[0] != 1 || $vp[1] < 0 || $vp[1] > 7) {
+        if (strlen($version) != 3 || count($vp) != 2 || $vp[0] != 1 || $vp[1] < 0 || $vp[1] > 7) {
             throw new \InvalidArgumentException("The specified version $version is invalid for PDF documents.");
         }
 
-        $this->version = $version;
+        $this->version = new Name($version);
 
         return $this;
     }
@@ -177,6 +181,7 @@ class Catalog extends TypedDictionary
     protected function getStaticDictionaryFields()
     {
         return array(
+            'version',
             'pages',
             'pageMode',
             'pageLayout',

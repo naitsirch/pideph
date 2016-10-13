@@ -19,16 +19,31 @@ class Name
             throw new Exception('Empty names are not allowed.');
         }
         $this->name = $name;
-        $this->value = self::convertNameToValue($name);
     }
 
+    public function __toString()
+    {
+        return $this->name;
+    }
+
+    /**
+     * Get the name.
+     * @return string
+     */
     public function getName()
     {
         return $this->name;
     }
 
+    /**
+     * Get the value represented by this name.
+     * @return string
+     */
     public function getValue()
     {
+        if (null === $this->value) {
+            $this->value = self::convertNameToValue($this->name);
+        }
         return $this->value;
     }
 

@@ -36,7 +36,9 @@ class StringGenerator
     {
         $this->indirectObjectStorage = new \SplObjectStorage();
 
-        $this->result = "%PDF-1.4 %"."\xC6\xA5"."\xC8\x8B"."\xE1\xB8\x8B"."\xD0\xB5"."\xD1\x80"."\xD2\xBB"."\n\n";
+        $version = $this->document->getCatalog()->getVersion();
+        $this->result = "%PDF-$version\n";
+        $this->result .= "%"."\xC6\xA5"."\xC8\x8B"."\xE1\xB8\x8B"."\xD0\xB5"."\xD1\x80"."\xD2\xBB"."\n\n";
 
         $this->writeIndirectObjects();
         $this->writeCrossReferenceTable();
