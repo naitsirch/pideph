@@ -1,6 +1,6 @@
 PDF Links
 
-PDF Referenz/Spezifikation:
+PDF Reference/Specification:
 http://www.adobe.com/devnet/pdf/pdf_reference.html
 
 Wikipedia:
@@ -15,3 +15,8 @@ https://web.archive.org/web/20140624182842/http://www.gnupdf.org/images/d/db/Hel
 
 Adobe - Introduction to the Insides of PDF:
 http://www.adobe.com/content/dam/Adobe/en/technology/pdfs/PDF_Day_A_Look_Inside.pdf
+
+Filter FlateDecode:
+https://www.heise.de/security/artikel/Tatort-Internet-PDF-mit-Zeitbombe-1036564.html?artikelseite=2 [de]
+http://stackoverflow.com/a/11732420/1119601 > gzuncompress() - the solution
+  $ pdftk document.pdf output plain.txt uncompress
