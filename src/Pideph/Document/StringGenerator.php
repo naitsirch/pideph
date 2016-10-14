@@ -2,6 +2,7 @@
 
 namespace Pideph\Document;
 
+use Pideph\Document\Structure\Objects\Catalog;
 use Pideph\Document\Structure\Objects\Dictionary;
 use Pideph\Document\Structure\Objects\Name;
 
@@ -54,72 +55,103 @@ class StringGenerator
 
     private function writeIndirectObjects()
     {
-        $this->collectIndirectObjects($this->document->getCatalog());
+        $containerObjects = $this->inlineContainerObjects();
+
+        // collect indirect objects
+        foreach ($containerObjects as $object) {
+            $info = $containerObjects[$object];
+            if ($info->referenceCounter > 1 || $object instanceof Catalog) {
+                $info->index = $this->indirectObjectStorage->count() + 1;
+                $this->indirectObjectStorage[$object] = $info;
+            }
+        }
 
         $result = &$this->result;
 
+
+        //$this->collectIndirectObjects($this->document->getCatalog());
         foreach ($this->indirectObjectStorage as $object) {
             $info = $this->indirectObjectStorage[$object];
-            $info['offset'] = strlen($result);
-            $this->indirectObjectStorage[$object] = $info;
+            $info->offset = strlen($result);
 
-            $result .= $info['index'] . " 0 obj " . $info['serialized'] . " endobj\n";
+            $serialized = $this->serializeObject($object);
+
+            $result .= $info->index . " 0 obj " . $serialized . " endobj\n";
         }
 
         $result .= "\n";
     }
 
-    private function collectIndirectObjects($value)
+    private function serializeObject($object)
     {
-        if ($value instanceof Dictionary) {
-            if ($this->indirectObjectStorage->contains($value)) {
-                $storeInfo = $this->indirectObjectStorage->offsetGet($value);
-                return $storeInfo['index'] . ' 0 R';
-            }
-            $index = $this->indirectObjectStorage->count() + 1;
-
-            $storeInfo = array(
-                'index' => $index,
-                'serialized' => null,
-            );
-            $this->indirectObjectStorage->attach($value, $storeInfo);
-
+        if ($object instanceof Dictionary) {
             $serializedValues = array();
-            foreach ($value as $key => $childValue) {
+            foreach ($object as $key => $childValue) {
                 if ($childValue !== null) {
-                    $serializedValues[] = "/$key " . $this->collectIndirectObjects($childValue);
+                    if (is_object($childValue) && $this->indirectObjectStorage->contains($childValue)) {
+                        $serializedValues[] = "/$key " . $this->indirectObjectStorage[$childValue]->index . ' 0 R';
+                    } else {
+                        $serializedValues[] = "/$key " . $this->serializeObject($childValue);
+                    }
                 }
             }
-
-            $storeInfo['serialized'] = '<< ' . implode(' ', $serializedValues) . ' >>';
-
-            $this->indirectObjectStorage->attach($value, $storeInfo);
-
-            return $storeInfo['index'] . ' 0 R';
-        } else if ($value instanceof Name) {
-            return '/' . $value->getName();
-        } else if (is_array($value)) {
-            $length = count($value);
+            return '<< ' . implode(' ', $serializedValues) . ' >>';
+        } else if (is_array($object)) {
+            $length = count($object);
             $serializedValues = array();
             for ($i = 0; $i < $length; $i++) {
-                if (!isset($value[$i])) {
+                if (!isset($object[$i])) {
                     $msg = 'Only purely indexed arrays are allowed. But we got an array with these keys: "%s". Use a Dictionary instead.';
-                    throw new \Exception(sprintf($msg, implode(', ', array_keys($value))));
+                    throw new \Exception(sprintf($msg, implode(', ', array_keys($object))));
                 }
-                $serializedValues[] = $this->collectIndirectObjects($value[$i]);
+                $serializedValues[] = $this->serializeObject($object[$i]);
             }
             return '[' . implode(' ', $serializedValues) . ']';
-        } else if (is_string($value)) {
-            if (substr_count($value, '(') != substr_count($value, ')')) {
+        } else if ($object instanceof Name) {
+            return '/' . $object->getName();
+        } else if (is_string($object)) {
+            if (substr_count($object, '(') != substr_count($object, ')')) {
                 $msg = 'Unbalanced number of parentheses is not allowed in a literal string "%s".';
-                throw new \Exception(sprintf($msg, $value));
+                throw new \Exception(sprintf($msg, $object));
             }
-            return "($value)";
-        } else if (is_int($value) || is_float($value)) {
-            return $value;
+            return "($object)";
+        } else if (is_int($object) || is_float($object)) {
+            return $object;
         }
 
-        throw new \Exception(sprintf('Value of type "%s" is not serializable.', gettype($value)));
+        throw new \Exception(sprintf('Value of type "%s" is not serializable.', gettype($object)));
+    }
+
+    /**
+     * Collects all objects of the document graph.
+     *
+     * @param object|array $node
+     * @param \SplObjectStorage $objects
+     * @return \SplObjectStorage
+     */
+    private function inlineContainerObjects($node = null, \SplObjectStorage $objects = null)
+    {
+        if (null === $objects || $objects->count() == 0) {
+            $node = $this->document->getCatalog();
+            $objects = new \SplObjectStorage();
+        } else if (!$node instanceof Dictionary && !is_array($node)) {
+            return $objects;
+        }
+
+        if (!is_array($node)) {
+            if ($objects->contains($node)) {
+                $objects[$node]->referenceCounter++;
+                return $objects;
+            } else {
+                $objects[$node] = new \stdClass();
+                $objects[$node]->referenceCounter = 1;
+            }
+        }
+
+        foreach ($node as $item) {
+            $this->inlineContainerObjects($item, $objects);
+        }
+        return $objects;
     }
 
     private function writeCrossReferenceTable()
@@ -134,7 +166,7 @@ class StringGenerator
 
         foreach ($this->indirectObjectStorage as $dictionary) {
             $info = $this->indirectObjectStorage[$dictionary];
-            $result .= str_pad($info['offset'], 10, '0', STR_PAD_LEFT) . " 00000 n \n";
+            $result .= str_pad($info->offset, 10, '0', STR_PAD_LEFT) . " 00000 n \n";
         }
     }
 
@@ -144,7 +176,7 @@ class StringGenerator
 
         $size = $this->indirectObjectStorage->count() + 1;
         $rootInfo = $this->indirectObjectStorage[$this->document->getCatalog()];
-        $rootRef = $rootInfo['index'] . ' 0 R';
+        $rootRef = $rootInfo->index . ' 0 R';
 
         $result .= "trailer\n";
         $result .= "<< /Size $size /Root $rootRef >>\n";

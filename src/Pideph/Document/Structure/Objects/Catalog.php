@@ -25,7 +25,7 @@ class Catalog extends TypedDictionary
      * @PDFType name
      * @var string PDF Version [1.0 - 1.7]
      */
-    private $version = '1.0';
+    private $version;
 
     /**
      * (Required; shall be an indirect reference) The page tree node that
@@ -55,6 +55,7 @@ class Catalog extends TypedDictionary
     public function __construct()
     {
         $this->setType(self::TYPE);
+        $this->setVersion('1.0');
 
         $this->pages = new PageTree();
     }
