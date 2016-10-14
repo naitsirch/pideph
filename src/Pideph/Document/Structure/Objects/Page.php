@@ -2,6 +2,8 @@
 
 namespace Pideph\Document\Structure\Objects;
 
+use ArrayObject;
+
 /**
  * Pideph\Document\Structure\Objects\Page
  *
@@ -12,10 +14,10 @@ class Page extends TypedDictionary
     const TYPE = 'Page';
 
     /**
-     * Array of annotations
-     * @var Dictionary
+     * Array of annotation dictionaries.
+     * @var ArrayObject
      */
-    private $annots = array();
+    private $annots;
 
     /**
      * The content of the page as a PDF stream.
@@ -42,9 +44,9 @@ class Page extends TypedDictionary
      * intersection of these two rectangles will determine the visible drawing
      * area of the page.
      *
-     * @var array
+     * @var ArrayObject
      */
-    private $mediaBox = array();
+    private $mediaBox;
 
     /**
      * Rectangle object (an array of 4 fixed point numbers, they are the user
@@ -54,25 +56,25 @@ class Page extends TypedDictionary
      * intersection of these two rectangles will determine the visible drawing
      * area of the page.
      * 
-     * @var array
+     * @var ArrayObject
      */
-    private $cropBox = array();
+    private $cropBox;
 
     /**
      * Rectangle object (an array of 4 fixed point numbers, they are the user
      * coordinates for the left, bottom, right, and top sides of the rectangle).
      *
-     * @var array
+     * @var ArrayObject
      */
-    private $bleedBox = array();
+    private $bleedBox;
 
     /**
      * Rectangle object (an array of 4 fixed point numbers, they are the user
      * coordinates for the left, bottom, right, and top sides of the rectangle).
      *
-     * @var array
+     * @var ArrayObject
      */
-    private $trimBox = array();
+    private $trimBox;
 
     /**
      * Rectangle object (an array of 4 fixed point numbers, they are the user
@@ -82,9 +84,9 @@ class Page extends TypedDictionary
      * intersection of these two rectangles will determine the visible drawing
      * area of the page.
      *
-     * @var array
+     * @var ArrayObject
      */
-    private $artBox = array();
+    private $artBox;
 
     /**
      * PDF Type: Dictionary
@@ -97,12 +99,17 @@ class Page extends TypedDictionary
         $this->setType(self::TYPE);
         
         $this->parent = $parent;
-        $this->annots = new Dictionary();
+        $this->annots = new ArrayObject();
+        $this->mediaBox = new ArrayObject();
+        $this->cropBox = new ArrayObject();
+        $this->bleedBox = new ArrayObject();
+        $this->trimBox = new ArrayObject();
+        $this->artBox = new ArrayObject();
         $this->resources = new ResourceDictionary();
     }
 
     /**
-     * @return Dictionary
+     * @return ArrayObject
      */
     public function getAnnots()
     {
@@ -114,6 +121,11 @@ class Page extends TypedDictionary
         return $this->contents;
     }
 
+    public function setContents($contents)
+    {
+        $this->contents = $contents;
+    }
+
     /**
      * @return PageTree
      */
@@ -122,42 +134,82 @@ class Page extends TypedDictionary
         return $this->parent;
     }
 
+    /**
+     * @return int
+     */
     public function getRotate()
     {
         return $this->rotate;
     }
 
+    public function setRotate($rotate)
+    {
+        $this->rotate = $rotate;
+    }
+
     /**
-     * @return array
+     * @return ArrayObject
      */
     public function getMediaBox()
     {
         return $this->mediaBox;
     }
 
-    public function setMediaBox(array $mediaBox)
+    public function setMediaBox(ArrayObject $mediaBox)
     {
         $this->mediaBox = $mediaBox;
     }
 
+    /**
+     * @return ArrayObject
+     */
     public function getCropBox()
     {
         return $this->cropBox;
     }
 
+    public function setCropBox(ArrayObject $cropBox)
+    {
+        $this->cropBox = $cropBox;
+    }
+
+    /**
+     * @return ArrayObject
+     */
     public function getBleedBox()
     {
         return $this->bleedBox;
     }
 
+    public function setBleedBox(ArrayObject $bleedBox)
+    {
+        $this->bleedBox = $bleedBox;
+    }
+
+    /**
+     * @return ArrayObject
+     */
     public function getTrimBox()
     {
         return $this->trimBox;
     }
 
+    public function setTrimBox(ArrayObject $trimBox)
+    {
+        $this->trimBox = $trimBox;
+    }
+
+    /**
+     * @return ArrayObject
+     */
     public function getArtBox()
     {
         return $this->artBox;
+    }
+
+    public function setArtBox(ArrayObject $artBox)
+    {
+        $this->artBox = $artBox;
     }
 
     /**
@@ -167,37 +219,6 @@ class Page extends TypedDictionary
     {
         return $this->resources;
     }
-
-    public function setContents($contents)
-    {
-        $this->contents = $contents;
-    }
-
-    public function setRotate($rotate)
-    {
-        $this->rotate = $rotate;
-    }
-
-    public function setCropBox($cropBox)
-    {
-        $this->cropBox = $cropBox;
-    }
-
-    public function setBleedBox($bleedBox)
-    {
-        $this->bleedBox = $bleedBox;
-    }
-
-    public function setTrimBox($trimBox)
-    {
-        $this->trimBox = $trimBox;
-    }
-
-    public function setArtBox($artBox)
-    {
-        $this->artBox = $artBox;
-    }
-
 
     protected function getStaticDictionaryFields()
     {

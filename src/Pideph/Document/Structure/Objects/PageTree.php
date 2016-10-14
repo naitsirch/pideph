@@ -2,6 +2,8 @@
 
 namespace Pideph\Document\Structure\Objects;
 
+use ArrayObject;
+
 /**
  * Pideph\Document\Structure\Objects\PageTree
  *
@@ -14,9 +16,9 @@ class PageTree extends TypedDictionary
     /**
      * (Required) An array of indirect references to the immediate children of
      * this node. The children shall only be page objects or other page tree nodes.
-     * @var array|PageTree[]|Page[]
+     * @var ArrayObject|PageTree[]|Page[]
      */
-    private $kids = array();
+    private $kids;
 
     /**
      * (Required) The number of leaf nodes (page objects) that are descendants
@@ -28,10 +30,12 @@ class PageTree extends TypedDictionary
     public function __construct()
     {
         $this->setType(self::TYPE);
+
+        $this->kids = new ArrayObject();
     }
 
     /**
-     * @return array|PageTree[]|Page[]
+     * @return ArrayObject|PageTree[]|Page[]
      */
     public function getKids()
     {

@@ -96,14 +96,10 @@ class StringGenerator
                 }
             }
             return '<< ' . implode(' ', $serializedValues) . ' >>';
-        } else if (is_array($object)) {
-            $length = count($object);
+        } else if ($object instanceof \ArrayObject) {
+            $length = $object->count();
             $serializedValues = array();
             for ($i = 0; $i < $length; $i++) {
-                if (!isset($object[$i])) {
-                    $msg = 'Only purely indexed arrays are allowed. But we got an array with these keys: "%s". Use a Dictionary instead.';
-                    throw new \Exception(sprintf($msg, implode(', ', array_keys($object))));
-                }
                 $serializedValues[] = $this->serializeObject($object[$i]);
             }
             return '[' . implode(' ', $serializedValues) . ']';
@@ -125,7 +121,7 @@ class StringGenerator
     /**
      * Collects all objects of the document graph.
      *
-     * @param object|array $node
+     * @param object $node
      * @param \SplObjectStorage $objects
      * @return \SplObjectStorage
      */
@@ -134,18 +130,16 @@ class StringGenerator
         if (null === $objects || $objects->count() == 0) {
             $node = $this->document->getCatalog();
             $objects = new \SplObjectStorage();
-        } else if (!$node instanceof Dictionary && !is_array($node)) {
+        } else if (!$node instanceof Dictionary && !$node instanceof \ArrayObject) {
             return $objects;
         }
 
-        if (!is_array($node)) {
-            if ($objects->contains($node)) {
-                $objects[$node]->referenceCounter++;
-                return $objects;
-            } else {
-                $objects[$node] = new \stdClass();
-                $objects[$node]->referenceCounter = 1;
-            }
+        if ($objects->contains($node)) {
+            $objects[$node]->referenceCounter++;
+            return $objects;
+        } else {
+            $objects[$node] = new \stdClass();
+            $objects[$node]->referenceCounter = 1;
         }
 
         foreach ($node as $item) {

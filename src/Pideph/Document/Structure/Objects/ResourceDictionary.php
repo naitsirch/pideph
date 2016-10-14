@@ -2,6 +2,8 @@
 
 namespace Pideph\Document\Structure\Objects;
 
+use ArrayObject;
+
 /**
  * Description of ResourceDictionary
  *
@@ -11,22 +13,45 @@ class ResourceDictionary extends TypedDictionary
 {
     const TYPE = null;
 
+    /**
+     * @var Dictionary
+     */
     private $colorSpace;
 
+    /**
+     * @var Dictionary
+     */
     private $font;
 
+    /**
+     * @var Dictionary
+     */
     private $xObject;
 
-    private $procSet = array();
+    /**
+     * @var ArrayObject
+     */
+    private $procSet;
 
+    /**
+     * @var Dictionary
+     */
     private $extGState;
 
+    /**
+     * @var Dictionary
+     */
     private $shading;
 
+    /**
+     * @var Dictionary
+     */
     private $pattern;
 
     public function __construct()
     {
+        $this->procSet = new ArrayObject();
+
         $this->colorSpace = new Dictionary();
         $this->font = new Dictionary();
         $this->xObject = new Dictionary();
@@ -60,14 +85,14 @@ class ResourceDictionary extends TypedDictionary
     }
 
     /**
-     * @return array
+     * @return ArrayObject
      */
     public function getProcSet()
     {
         return $this->procSet;
     }
 
-    public function setProcSet(array $procSet)
+    public function setProcSet(ArrayObject $procSet)
     {
         $this->procSet = $procSet;
     }
