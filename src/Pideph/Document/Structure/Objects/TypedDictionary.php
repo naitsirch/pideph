@@ -30,7 +30,7 @@ abstract class TypedDictionary extends Dictionary
 
     protected function setType($type)
     {
-        $this->type = new Name($type);
+        $this->type = Name::by($type);
     }
 
     public function offsetExists($offset)

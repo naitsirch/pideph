@@ -9,16 +9,19 @@ namespace Pideph\Document\Structure\Objects;
  */
 class Name
 {
+    private static $allNames;
+
     private $name;
 
     private $value;
 
-    public function __construct($name)
+    private function __construct($name)
     {
         if (empty($name)) {
             throw new Exception('Empty names are not allowed.');
         }
         $this->name = $name;
+        self::$allNames[$name] = $this;
     }
 
     public function __toString()
@@ -45,6 +48,21 @@ class Name
             $this->value = self::convertNameToValue($this->name);
         }
         return $this->value;
+    }
+
+    /**
+     * Retrieves an instance of Name by its name.
+     * @param string $name
+     * @return Name
+     */
+    public static function by($name)
+    {
+        $name = (string) $name;
+
+        if (isset(self::$allNames[$name])) {
+            return self::$allNames[$name];
+        }
+        return new Name($name);
     }
 
     private static function convertNameToValue($name)

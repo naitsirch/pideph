@@ -11,6 +11,13 @@ class Catalog extends TypedDictionary
 {
     const TYPE = 'Catalog';
 
+    const PAGELAYOUT_SINGLE_PAGE      = 'SinglePage';
+    const PAGELAYOUT_ONE_COLUMN       = 'OneColumn';
+    const PAGELAYOUT_TWO_COLUMN_LEFT  = 'TwoColumnLeft';
+    const PAGELAYOUT_TWO_COLUMN_RIGHT = 'TwoColumnRight';
+    const PAGELAYOUT_TWO_PAGE_LEFT    = 'TwoPageLeft';
+    const PAGELAYOUT_TWO_PAGE_RIGHT   = 'TwoPageRight';
+
     /**
      * (Optional; PDF 1.4) The version of the PDF specification to which the
      * document conforms (for example, 1.4) if later than the version specified
@@ -36,6 +43,23 @@ class Catalog extends TypedDictionary
 
     private $pageMode;
 
+    /**
+     * (Optional) A name object specifying the page layout shall be used when the
+     * document is opened:
+     *   - SinglePage       Display one page at a time
+     *   - OneColumn        Display the pages in one column
+     *   - TwoColumnLeft    Display the pages in two columns, with odd-
+     *                      numbered pages on the left
+     *   - TwoColumnRight   Display the pages in two columns, with odd-
+     *                      numbered pages on the right
+     *   - TwoPageLeft      (PDF 1.5) Display the pages two at a time,
+     *                      with odd-numbered pages on the left
+     *   - TwoPageRight     (PDF 1.5) Display the pages two at a time,
+     *                      with odd-numbered pages on the right
+     * Default value: SinglePage.
+     *
+     * @var Name
+     */
     private $pageLayout;
 
     private $outlines;
@@ -76,7 +100,7 @@ class Catalog extends TypedDictionary
             throw new \InvalidArgumentException("The specified version $version is invalid for PDF documents.");
         }
 
-        $this->version = new Name($version);
+        $this->version = Name::by($version);
 
         return $this;
     }
@@ -106,7 +130,22 @@ class Catalog extends TypedDictionary
 
     public function setPageLayout($pageLayout)
     {
-        $this->pageLayout = $pageLayout;
+        if (!in_array($pageLayout, self::getPageLayouts())) {
+            throw new \InvalidArgumentException('Passed page layout is invalid.');
+        }
+        $this->pageLayout = Name::by($pageLayout);
+    }
+
+    public static function getPageLayouts()
+    {
+        return array(
+            self::PAGELAYOUT_ONE_COLUMN,
+            self::PAGELAYOUT_SINGLE_PAGE,
+            self::PAGELAYOUT_TWO_COLUMN_LEFT,
+            self::PAGELAYOUT_TWO_COLUMN_RIGHT,
+            self::PAGELAYOUT_TWO_PAGE_LEFT,
+            self::PAGELAYOUT_TWO_PAGE_RIGHT,
+        );
     }
 
     public function getOutlines()
