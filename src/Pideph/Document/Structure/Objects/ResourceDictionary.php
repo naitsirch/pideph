@@ -48,6 +48,11 @@ class ResourceDictionary extends TypedDictionary
      */
     private $pattern;
 
+    /**
+     * @var Dictionary
+     */
+    private $properties;
+
     public function __construct()
     {
         $this->procSet = new ArrayObject();
@@ -58,6 +63,7 @@ class ResourceDictionary extends TypedDictionary
         $this->extGState = new Dictionary();
         $this->shading = new Dictionary();
         $this->pattern = new Dictionary();
+        $this->properties = new Dictionary();
     }
 
     /**
@@ -119,6 +125,19 @@ class ResourceDictionary extends TypedDictionary
     public function getPattern()
     {
         return $this->pattern;
+    }
+
+    /**
+     * @return Dictionary
+     */
+    public function getProperties()
+    {
+        return $this->properties;
+    }
+
+    public function setProperties(Dictionary $properties)
+    {
+        $this->properties = $properties;
     }
 
     protected function getStaticDictionaryFields()
