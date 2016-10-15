@@ -5,6 +5,7 @@ namespace Pideph\Document;
 use Pideph\Document\Structure\Objects\Catalog;
 use Pideph\Document\Structure\Objects\Dictionary;
 use Pideph\Document\Structure\Objects\Name;
+use Pideph\Document\Structure\Objects\Stream;
 
 /**
  * Pideph\Document\StringGenerator
@@ -60,7 +61,11 @@ class StringGenerator
         // collect indirect objects
         foreach ($containerObjects as $object) {
             $info = $containerObjects[$object];
-            if ($info->referenceCounter > 1 || $object instanceof Catalog) {
+
+            if ($info->referenceCounter > 1
+                || $object instanceof Catalog
+                || $object instanceof Stream
+            ) {
                 $info->index = $this->indirectObjectStorage->count() + 1;
                 $this->indirectObjectStorage[$object] = $info;
             }
@@ -74,7 +79,7 @@ class StringGenerator
             $info = $this->indirectObjectStorage[$object];
             $info->offset = strlen($result);
 
-            $serialized = $this->serializeObject($object);
+            $serialized = $this->serializeValue($object);
 
             $result .= $info->index . " 0 obj " . $serialized . " endobj\n";
         }
@@ -82,40 +87,86 @@ class StringGenerator
         $result .= "\n";
     }
 
-    private function serializeObject($object)
+    private function serializeValue($value)
     {
-        if ($object instanceof Dictionary) {
+        if ($value instanceof Dictionary) {
+
+            // Serialize a dictionary
+
             $serializedValues = array();
-            foreach ($object as $key => $childValue) {
+            foreach ($value as $key => $childValue) {
                 if ($childValue !== null) {
                     if (is_object($childValue) && $this->indirectObjectStorage->contains($childValue)) {
                         $serializedValues[] = "/$key " . $this->indirectObjectStorage[$childValue]->index . ' 0 R';
                     } else {
-                        $serializedValues[] = "/$key " . $this->serializeObject($childValue);
+                        $serialized = $this->serializeValue($childValue);
+
+                        if (null !== $serialized) {
+                            $serializedValues[] = "/$key " . $serialized;
+                        }
                     }
                 }
             }
-            return '<< ' . implode(' ', $serializedValues) . ' >>';
-        } else if ($object instanceof \ArrayObject) {
-            $length = $object->count();
+
+            $serialized = '<< ' . implode(' ', $serializedValues) . ' >>';
+
+            if ($value instanceof Stream) {
+                $serialized .= "\n";
+                $serialized .= "stream\n";
+                $serialized .= $value->getContent() . "\n";
+                $serialized .= "endstream\n";
+            }
+
+            return $serialized;
+            
+        } else if ($value instanceof \ArrayObject) {
+
+            // Serialize an array
+
+            $length = $value->count();
+            if (0 === $length && !$this->indirectObjectStorage->contains($value)) {
+                return null;
+            }
+
             $serializedValues = array();
             for ($i = 0; $i < $length; $i++) {
-                $serializedValues[] = $this->serializeObject($object[$i]);
+                $serializedValues[] = $this->serializeValue($value[$i]);
             }
+
             return '[' . implode(' ', $serializedValues) . ']';
-        } else if ($object instanceof Name) {
-            return '/' . $object->getName();
-        } else if (is_string($object)) {
-            if (substr_count($object, '(') != substr_count($object, ')')) {
+
+        } else if ($value instanceof Name) {
+
+            // Serialize a name
+
+            return '/' . $value->getName();
+
+        } else if (is_string($value)) {
+
+            // Serialize a string
+
+            if (substr_count($value, '(') != substr_count($value, ')')) {
                 $msg = 'Unbalanced number of parentheses is not allowed in a literal string "%s".';
-                throw new \Exception(sprintf($msg, $object));
+                throw new \Exception(sprintf($msg, $value));
             }
-            return "($object)";
-        } else if (is_int($object) || is_float($object)) {
-            return $object;
+
+            return "($value)";
+
+        } else if (is_int($value) || is_float($value)) {
+
+            // Serialize integer and floats or doubles
+
+            return $value;
+
+        } else if (is_bool($value)) {
+
+            // Serialize a boolean vealue
+
+            return $value ? 'true' : 'false';
+
         }
 
-        throw new \Exception(sprintf('Value of type "%s" is not serializable.', gettype($object)));
+        throw new \Exception(sprintf('Value of type "%s" is not serializable.', gettype($value)));
     }
 
     /**

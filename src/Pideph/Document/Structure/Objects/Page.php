@@ -21,7 +21,7 @@ class Page extends TypedDictionary
 
     /**
      * The content of the page as a PDF stream.
-     * @var string
+     * @var Stream
      */
     private $contents;
 
@@ -99,6 +99,7 @@ class Page extends TypedDictionary
         $this->setType(self::TYPE);
         
         $this->parent = $parent;
+        $this->contents = new Stream();
         $this->annots = new ArrayObject();
         $this->mediaBox = new ArrayObject();
         $this->cropBox = new ArrayObject();
@@ -116,12 +117,15 @@ class Page extends TypedDictionary
         return $this->annots;
     }
 
+    /**
+     * @return Stream
+     */
     public function getContents()
     {
         return $this->contents;
     }
 
-    public function setContents($contents)
+    public function setContents(Stream $contents)
     {
         $this->contents = $contents;
     }
