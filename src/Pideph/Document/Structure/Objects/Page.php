@@ -3,9 +3,12 @@
 namespace Pideph\Document\Structure\Objects;
 
 use ArrayObject;
+use Pideph\Document\Structure\Objects\Dictionary;
 
 /**
  * Pideph\Document\Structure\Objects\Page
+ *
+ * See Adobe PDF Reference, Edition 2008-7-1 (§7.7.3.3 Page Objects)
  *
  * @author naitsirch
  */
@@ -35,6 +38,24 @@ class Page extends TypedDictionary
      * @var int
      */
     private $rotate = 0;
+
+    /**
+     * (Optional; PDF 1.4) A group attributes dictionary that shall specify
+     * the attributes of the page's page group for use in the transparent
+     * imaging model (see 11.4.7, "Page Group" and 11.6.6,
+     * "Transparency Group XObjects").
+     *
+     * @var Dictionary
+     */
+    private $group;
+
+    /**
+     * (Optional) A stream object that shall define the page’s thumbnail
+     * image (see 12.3.4, "Thumbnail Images").
+     *
+     * @var Stream
+     */
+    private $thumb;
 
     /**
      * Rectangle object (an array of 4 fixed point numbers, they are the user
@@ -107,6 +128,11 @@ class Page extends TypedDictionary
         $this->trimBox = new ArrayObject();
         $this->artBox = new ArrayObject();
         $this->resources = new ResourceDictionary();
+
+        $this->group = new Dictionary();
+        $this->group->add('CS', Name::by('DeviceRGB'));
+        $this->group->add('I', true);
+        $this->group->add('S', Name::by('Transparency'));
     }
 
     /**
@@ -149,6 +175,32 @@ class Page extends TypedDictionary
     public function setRotate($rotate)
     {
         $this->rotate = $rotate;
+    }
+
+    /**
+     * @return Dictionary
+     */
+    public function getGroup()
+    {
+        return $this->group;
+    }
+
+    public function setGroup(Dictionary $group)
+    {
+        $this->group = $group;
+    }
+
+    /**
+     * @return Stream|null
+     */
+    public function getThumb()
+    {
+        return $this->thumb;
+    }
+
+    public function setThumb(Stream $thumb = null)
+    {
+        $this->thumb = $thumb;
     }
 
     /**
@@ -231,6 +283,8 @@ class Page extends TypedDictionary
             'contents',
             'parent',
             'rotate',
+            'group',
+            'thumb',
             'mediaBox',
             'cropBox',
             'bleedBox',
