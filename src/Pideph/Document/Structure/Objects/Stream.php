@@ -7,7 +7,7 @@ use ArrayObject;
 /**
  * Pideph\Document\Structure\Objects\Stream
  *
- * See Adobe PDF Reference (§7.3.8.2)
+ * See Adobe PDF Reference, Edition 2008-7-1 (§7.3.8.2 Stream Objects)
  *
  * @author naitsirch
  */

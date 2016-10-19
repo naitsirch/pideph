@@ -79,7 +79,7 @@ class Catalog extends TypedDictionary
     public function __construct()
     {
         $this->setType(self::TYPE);
-        $this->setVersion('1.0');
+        $this->setVersion('1.7');
 
         $this->pages = new PageTree();
     }

@@ -81,7 +81,10 @@ class StringGenerator
 
             $serialized = $this->serializeValue($object);
 
-            $result .= $info->index . " 0 obj " . $serialized . " endobj\n";
+            if (substr($serialized, -1) !== "\n") {
+                $serialized .= "\n";
+            }
+            $result .= $info->index . " 0 obj\n" . $serialized . "endobj\n";
         }
 
         $result .= "\n";
@@ -98,6 +101,13 @@ class StringGenerator
                 if ($childValue !== null) {
                     if (is_object($childValue) && $this->indirectObjectStorage->contains($childValue)) {
                         $serializedValues[] = "/$key " . $this->indirectObjectStorage[$childValue]->index . ' 0 R';
+                    } else if (is_object($childValue)
+                        && $childValue instanceof \Countable
+                        && $childValue->count() == 0
+                    ) {
+                        // Empty dictionaries or arrays should not be printed.
+                        // Streams are printed always as they have to be indirect objects.
+                        continue;
                     } else {
                         $serialized = $this->serializeValue($childValue);
 

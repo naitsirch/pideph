@@ -5,7 +5,9 @@ namespace Pideph\Document\Structure\Objects;
 use ArrayObject;
 
 /**
- * Description of ResourceDictionary
+ * Pideph\Document\Structure\Objects\ResourceDictionary
+ *
+ * See Adobe PDF Reference, Edition 2008-7-1 (§7.8.3 Resource Dictionaries)
  *
  * @author naitsirch
  */
@@ -29,6 +31,7 @@ class ResourceDictionary extends TypedDictionary
     private $xObject;
 
     /**
+     * (Optional) An array of predefined procedure set names (see 14.2, "Procedure Sets").
      * @var ArrayObject
      */
     private $procSet;
