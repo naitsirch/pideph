@@ -7,7 +7,7 @@ namespace Pideph\Document\Structure\Objects;
  *
  * @author naitsirch
  */
-class Dictionary implements \ArrayAccess, \IteratorAggregate
+class Dictionary implements \ArrayAccess, \IteratorAggregate, \Countable
 {
     protected $data = array();
 
@@ -42,5 +42,10 @@ class Dictionary implements \ArrayAccess, \IteratorAggregate
     public function getIterator()
     {
         return new \ArrayIterator($this->data);
+    }
+
+    public function count()
+    {
+        return count($this->data);
     }
 }

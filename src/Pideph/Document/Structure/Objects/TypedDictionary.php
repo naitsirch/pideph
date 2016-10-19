@@ -109,5 +109,19 @@ abstract class TypedDictionary extends Dictionary
         return new \ArrayIterator(array_merge($data, $this->data));
     }
 
+    public function count()
+    {
+        $count = 1; // this is for the `type` field
+
+        foreach ($this->getStaticDictionaryFields() as $field) {
+            $getField = 'get' . ucfirst($field);
+            if (null !== $this->$getField()) {
+                $count++;
+            }
+        }
+
+        return $count + count($this->data);
+    }
+
     protected abstract function getStaticDictionaryFields();
 }
