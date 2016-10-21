@@ -225,16 +225,26 @@ class StringGenerator
         }
     }
 
+    /**
+     * See Adobe PDF Reference, Edition 2008-7-1 (§7.5.5 File Trailer)
+     */
     private function writeTrailer()
     {
         $result = &$this->result;
 
-        $size = $this->indirectObjectStorage->count() + 1;
-        $rootInfo = $this->indirectObjectStorage[$this->document->getCatalog()];
-        $rootRef = $rootInfo->index . ' 0 R';
+        $id = md5(implode('|', array(
+            date('YmdHis'),
+            strlen($result),
+            $result,
+        )));
+
+        $trailer = new Dictionary();
+        $trailer['Size'] = $this->indirectObjectStorage->count() + 1;
+        $trailer['Root'] = $this->document->getCatalog();
+        $trailer['ID'] = new \ArrayObject(array($id, $id));
 
         $result .= "trailer\n";
-        $result .= "<< /Size $size /Root $rootRef >>\n";
+        $result .= $this->serializeValue($trailer) . "\n";
 
         $result .= "startxref\n";
         $result .= $this->lastXrefSectionOffset . "\n";
