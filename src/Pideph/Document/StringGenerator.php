@@ -4,6 +4,7 @@ namespace Pideph\Document;
 
 use Pideph\Document\Structure\Objects\Catalog;
 use Pideph\Document\Structure\Objects\Dictionary;
+use Pideph\Document\Structure\Objects\Information;
 use Pideph\Document\Structure\Objects\Name;
 use Pideph\Document\Structure\Objects\Stream;
 
@@ -64,6 +65,7 @@ class StringGenerator
 
             if ($info->referenceCounter > 1
                 || $object instanceof Catalog
+                || $object instanceof Information
                 || $object instanceof Stream
             ) {
                 $info->index = $this->indirectObjectStorage->count() + 1;
@@ -151,6 +153,21 @@ class StringGenerator
 
             return '/' . $value->getName();
 
+        } else if ($value instanceof \DateTime) {
+
+            // Serialize a DateTime
+
+            if ($value->getTimezone()) {
+                if ($value->getTimezone()->getName() == 'UTC') {
+                    return '(D:' . $value->format('YmdHis') . "+00'00)";
+                } else {
+                    $tzOffset = str_replace(":", "'", $value->format('P'));
+                    return '(D:' . $value->format('YmdHis') . $tzOffset . ')';
+                }
+            }
+
+            return '(D:' . $value->format('YmdHis') . ')';
+
         } else if (is_string($value)) {
 
             // Serialize a string
@@ -176,7 +193,8 @@ class StringGenerator
 
         }
 
-        throw new \Exception(sprintf('Value of type "%s" is not serializable.', gettype($value)));
+        $type = is_object($value) ? get_class($value) : gettype($value);
+        throw new \Exception(sprintf('Value of type "%s" is not serializable.', $type));
     }
 
     /**
@@ -241,6 +259,7 @@ class StringGenerator
         $trailer = new Dictionary();
         $trailer['Size'] = $this->indirectObjectStorage->count() + 1;
         $trailer['Root'] = $this->document->getCatalog();
+        $trailer['Info'] = $this->document->getCatalog()->getMetadata();
         $trailer['ID'] = new \ArrayObject(array($id, $id));
 
         $result .= "trailer\n";

@@ -9,6 +9,10 @@ namespace Pideph\Document\Structure\Objects;
  */
 class Dictionary implements \ArrayAccess, \IteratorAggregate, \Countable
 {
+    /**
+     * Array holding the dictionary's data.
+     * @var array
+     */
     protected $data = array();
 
     public function add($key, $value)

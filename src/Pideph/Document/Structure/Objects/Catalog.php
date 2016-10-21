@@ -74,6 +74,13 @@ class Catalog extends TypedDictionary
 
     private $structTreeRoot;
 
+    /**
+     * (Optional; PDF 1.4; shall be an indirect reference) A metadata
+     * stream that shall contain metadata for the document (see 14.3.2,
+     * "Metadata Streams").
+     *
+     * @var Information|Stream
+     */
     private $metadata;
 
     public function __construct()
@@ -82,6 +89,7 @@ class Catalog extends TypedDictionary
         $this->setVersion('1.7');
 
         $this->pages = new PageTree();
+        $this->metadata = new Information();
     }
 
     /**
@@ -208,14 +216,12 @@ class Catalog extends TypedDictionary
         $this->structTreeRoot = $structTreeRoot;
     }
 
+    /**
+     * @return Information
+     */
     public function getMetadata()
     {
         return $this->metadata;
-    }
-
-    public function setMetadata($metadata)
-    {
-        $this->metadata = $metadata;
     }
 
     protected function getStaticDictionaryFields()
