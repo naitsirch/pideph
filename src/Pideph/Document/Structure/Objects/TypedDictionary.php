@@ -9,11 +9,6 @@ namespace Pideph\Document\Structure\Objects;
  */
 abstract class TypedDictionary extends Dictionary
 {
-    /**
-     * @var Node
-     */
-    private $type;
-
     public function add($key, $value)
     {
         $this->offsetSet($key, $value);
@@ -21,24 +16,23 @@ abstract class TypedDictionary extends Dictionary
 
     /**
      * Returns the type of this dictionary.
-     * @return Node
+     * @return Name
      */
     public function getType()
     {
-        return $this->type;
+        return $this->offsetGet('Type');
     }
 
     protected function setType($type)
     {
-        $this->type = Name::by($type);
+        $this->offsetSet('Type', Name::by($type));
     }
 
     public function offsetExists($offset)
     {
         $fields = $this->getStaticDictionaryFields();
 
-        return 'type' === $offset
-            || in_array($offset, $fields)
+        return in_array($offset, $fields)
             || array_key_exists($offset, $this->data)
         ;
     }
@@ -47,9 +41,7 @@ abstract class TypedDictionary extends Dictionary
     {
         $fields = $this->getStaticDictionaryFields();
 
-        if ('type' === $offset) {
-            return $this->type;
-        } else if (in_array($offset, $fields)) {
+        if (in_array($offset, $fields)) {
             $getOffset = 'get' . ucfirst($offset);
             return $this->$getOffset();
         } else if (isset($this->data[$offset])) {
@@ -98,7 +90,7 @@ abstract class TypedDictionary extends Dictionary
 
     public function getIterator()
     {
-        $data = array('Type' => $this->type);
+        $data = array();
 
         foreach ($this->getStaticDictionaryFields() as $field) {
             $field = ucfirst($field);
@@ -106,12 +98,12 @@ abstract class TypedDictionary extends Dictionary
             $data[$field] = $this->$getField();
         }
 
-        return new \ArrayIterator(array_merge($data, $this->data));
+        return new \ArrayIterator(array_merge($this->data, $data));
     }
 
     public function count()
     {
-        $count = 1; // this is for the `type` field
+        $count = 0;
 
         foreach ($this->getStaticDictionaryFields() as $field) {
             $getField = 'get' . ucfirst($field);
