@@ -176,16 +176,21 @@ class Stream extends TypedDictionary
         $this->dL = $dL;
     }
 
+    public function isOnlyIndirectlyReferencable()
+    {
+        return true;
+    }
+
     protected function getStaticDictionaryFields()
     {
         return array(
-            'dL',
-            'decodeParms',
-            'f',
-            'fDecodeParms',
-            'fFilter',
-            'filter',
-            'length',
+            'DL',
+            'DecodeParms',
+            'F',
+            'FDecodeParms',
+            'FFilter',
+            'Filter',
+            'Length',
         );
     }
 }

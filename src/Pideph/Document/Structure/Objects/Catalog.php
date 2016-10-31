@@ -224,20 +224,25 @@ class Catalog extends TypedDictionary
         return $this->metadata;
     }
 
+    public function isOnlyIndirectlyReferencable()
+    {
+        return true;
+    }
+
     protected function getStaticDictionaryFields()
     {
         return array(
-            'version',
-            'pages',
-            'pageMode',
-            'pageLayout',
-            'outlines',
-            'openAction',
-            'names',
-            'acroForm',
-            'viewerPreferences',
-            'structTreeRoot',
-            'metadata',
+            'Version',
+            'Pages',
+            'PageMode',
+            'PageLayout',
+            'Outlines',
+            'OpenAction',
+            'Names',
+            'AcroForm',
+            'ViewerPreferences',
+            'StructTreeRoot',
+            'Metadata',
         );
     }
 }

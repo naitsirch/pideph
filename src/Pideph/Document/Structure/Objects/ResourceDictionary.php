@@ -21,7 +21,16 @@ class ResourceDictionary extends TypedDictionary
     private $colorSpace;
 
     /**
-     * @var Dictionary
+     * This returns a dictionary.
+     * Attention! This should not be a Font dictionary but rather a dictionary
+     * consisting of font-dictionaries with their names as key.
+     *
+     * This is why there is no `setFont()`
+     *
+     * @example $resource->getFont()->add('F1', $fontDictionary);
+     *          => /Font << /F1 24 0 R /F2 25 0 R ... >>
+     *
+     * @var Font
      */
     private $font;
 
@@ -146,13 +155,13 @@ class ResourceDictionary extends TypedDictionary
     protected function getStaticDictionaryFields()
     {
         return array(
-            'colorSpace',
-            'font',
-            'xObject',
-            'procSet',
-            'extGState',
-            'shading',
-            'pattern',
+            'ColorSpace',
+            'Font',
+            'XObject',
+            'ProcSet',
+            'ExtGState',
+            'Shading',
+            'Pattern',
         );
     }
 }

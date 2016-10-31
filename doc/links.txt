@@ -20,3 +20,11 @@ Filter FlateDecode:
 https://www.heise.de/security/artikel/Tatort-Internet-PDF-mit-Zeitbombe-1036564.html?artikelseite=2 [de]
 http://stackoverflow.com/a/11732420/1119601 > gzuncompress() - the solution
   $ pdftk document.pdf output plain.txt uncompress
+
+Online PDF/A Validator
+http://www.pdf-tools.com/pdf/validate-pdfa-online.aspx
+
+Adobe Free Fonts
+https://github.com/adobe-fonts
+http://www.adobe.com/products/type/fonts-by-adobe.html
+https://www.heise.de/newsticker/meldung/Freier-Font-von-Adobe-1659759.html

@@ -1,7 +1,20 @@
 %PDF-1.5 %âãÏÓ
 
-1 0 obj<</Count 1/Kids[7 0 R]/Type/Pages>> endobj 3 0 obj<</ModDate(D:20040819171125-07'00')/CreationDate(D:20040819161955-07'00')/Title(MyFile)>> 
-endobj 5 0 obj<</Pages 1 0 R/Type/Catalog/Metadata 21 0 R>> endobj 7 0 obj<</Type/Page/Parent 1 0 R/Rotate 0/MediaBox[0.0 0.0 612.0 792.0]/CropBox[0.0 0.0 612.0 792.0]/Resources<<>>>> endobj 9 0 obj null endobj 14 0 obj null endobj 21 0 obj<</Length 3193 /Type/Metadata/Subtype/XML>> stream <?xpacket begin='ï»¿' id='W5M0MpCehiHzreSzNTczkc9d'?><?adobe-xap-filters esc="CRLF"?> <x:xmpmeta xmlns:x='adobe:ns:meta/' x:xmptk='XMP toolkit 2.9.1-14, framework 1.6'><rdf:RDF xmlns:rdf='http://www.w3.org/1999/02/22-rdf-syntax-ns#' xmlns:iX='http://ns.adobe.com/iX/1.0/'> </rdf:RDF></x:xmpmeta><?xpacket end='w'?>endstream endobj 
+1 0 obj<</Count 1/Kids[7 0 R]/Type/Pages>> endobj
+3 0 obj<</ModDate(D:20040819171125-07'00')/CreationDate(D:20040819161955-07'00')/Title(MyFile)>> endobj
+5 0 obj<</Pages 1 0 R/Type/Catalog/Metadata 21 0 R>> endobj
+7 0 obj<</Type/Page/Parent 1 0 R/Rotate 0/MediaBox[0.0 0.0 612.0 792.0]/CropBox[0.0 0.0 612.0 792.0]/Resources<<>>>> endobj
+9 0 obj null endobj
+14 0 obj null endobj
+21 0 obj<</Length 3193 /Type/Metadata/Subtype/XML>>
+stream
+<?xpacket begin='ï»¿' id='W5M0MpCehiHzreSzNTczkc9d'?>
+<?adobe-xap-filters esc="CRLF"?>
+ <x:xmpmeta xmlns:x='adobe:ns:meta/' x:xmptk='XMP toolkit 2.9.1-14, framework 1.6'>
+<rdf:RDF xmlns:rdf='http://www.w3.org/1999/02/22-rdf-syntax-ns#' xmlns:iX='http://ns.adobe.com/iX/1.0/'> </rdf:RDF>
+</x:xmpmeta><?xpacket end='w'?>
+endstream
+endobj 
 
 xref
 

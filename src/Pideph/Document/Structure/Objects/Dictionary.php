@@ -2,12 +2,14 @@
 
 namespace Pideph\Document\Structure\Objects;
 
+use Pideph\Document\Structure\Objects\OnlyIndirectlyReferencable;
+
 /**
  * Description of Dictionary
  *
  * @author naitsirch
  */
-class Dictionary implements \ArrayAccess, \IteratorAggregate, \Countable
+class Dictionary implements OnlyIndirectlyReferencable, \ArrayAccess, \IteratorAggregate, \Countable
 {
     /**
      * Array holding the dictionary's data.
@@ -51,5 +53,10 @@ class Dictionary implements \ArrayAccess, \IteratorAggregate, \Countable
     public function count()
     {
         return count($this->data);
+    }
+
+    public function isOnlyIndirectlyReferencable()
+    {
+        return false;
     }
 }

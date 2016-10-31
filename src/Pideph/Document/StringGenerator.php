@@ -2,10 +2,9 @@
 
 namespace Pideph\Document;
 
-use Pideph\Document\Structure\Objects\Catalog;
 use Pideph\Document\Structure\Objects\Dictionary;
-use Pideph\Document\Structure\Objects\Information;
 use Pideph\Document\Structure\Objects\Name;
+use Pideph\Document\Structure\Objects\OnlyIndirectlyReferencable;
 use Pideph\Document\Structure\Objects\Stream;
 
 /**
@@ -64,9 +63,7 @@ class StringGenerator
             $info = $containerObjects[$object];
 
             if ($info->referenceCounter > 1
-                || $object instanceof Catalog
-                || $object instanceof Information
-                || $object instanceof Stream
+                || ($object instanceof OnlyIndirectlyReferencable && $object->isOnlyIndirectlyReferencable())
             ) {
                 $info->index = $this->indirectObjectStorage->count() + 1;
                 $this->indirectObjectStorage[$object] = $info;
@@ -81,7 +78,7 @@ class StringGenerator
             $info = $this->indirectObjectStorage[$object];
             $info->offset = strlen($result);
 
-            $serialized = $this->serializeValue($object);
+            $serialized = $this->serializeValue($object, false);
 
             if (substr($serialized, -1) !== "\n") {
                 $serialized .= "\n";
@@ -92,8 +89,12 @@ class StringGenerator
         $result .= "\n";
     }
 
-    private function serializeValue($value)
+    private function serializeValue($value, $allowReferences = false)
     {
+        if ($allowReferences && is_object($value) && $this->indirectObjectStorage->contains($value)) {
+            return $this->indirectObjectStorage[$value]->index . ' 0 R';
+        }
+
         if ($value instanceof Dictionary) {
 
             // Serialize a dictionary
@@ -101,9 +102,7 @@ class StringGenerator
             $serializedValues = array();
             foreach ($value as $key => $childValue) {
                 if ($childValue !== null) {
-                    if (is_object($childValue) && $this->indirectObjectStorage->contains($childValue)) {
-                        $serializedValues[] = "/$key " . $this->indirectObjectStorage[$childValue]->index . ' 0 R';
-                    } else if (is_object($childValue)
+                    if (is_object($childValue)
                         && $childValue instanceof \Countable
                         && $childValue->count() == 0
                     ) {
@@ -111,7 +110,7 @@ class StringGenerator
                         // Streams are printed always as they have to be indirect objects.
                         continue;
                     } else {
-                        $serialized = $this->serializeValue($childValue);
+                        $serialized = $this->serializeValue($childValue, true);
 
                         if (null !== $serialized) {
                             $serializedValues[] = "/$key " . $serialized;
@@ -142,7 +141,7 @@ class StringGenerator
 
             $serializedValues = array();
             for ($i = 0; $i < $length; $i++) {
-                $serializedValues[] = $this->serializeValue($value[$i]);
+                $serializedValues[] = $this->serializeValue($value[$i], true);
             }
 
             return '[' . implode(' ', $serializedValues) . ']';
@@ -263,7 +262,7 @@ class StringGenerator
         $trailer['ID'] = new \ArrayObject(array($id, $id));
 
         $result .= "trailer\n";
-        $result .= $this->serializeValue($trailer) . "\n";
+        $result .= $this->serializeValue($trailer, false) . "\n";
 
         $result .= "startxref\n";
         $result .= $this->lastXrefSectionOffset . "\n";

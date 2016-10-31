@@ -62,11 +62,16 @@ class PageTree extends TypedDictionary
         return $this->count;
     }
 
+    public function isOnlyIndirectlyReferencable()
+    {
+        return true;
+    }
+
     protected function getStaticDictionaryFields()
     {
         return array(
-            'count',
-            'kids',
+            'Count',
+            'Kids',
         );
     }
 }

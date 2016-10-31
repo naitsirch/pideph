@@ -15,6 +15,86 @@ class Information extends TypedDictionary
     const TRAPPED_FALSE = 'False';
     const TRAPPED_UNKNOWN = 'Unknown';
 
+    /**
+     * (Optional; PDF 1.1) The document's title.
+     * 
+     * @var string
+     */
+    private $title;
+
+    /**
+     * (Optional) The name of the person who created the document.
+     * 
+     * @var string
+     */
+    private $author;
+
+    /**
+     * (Optional; PDF 1.1) The subject of the document.
+     * 
+     * @var string
+     */
+    private $subject;
+
+    /**
+     * (Optional; PDF 1.1) Keywords associated with the document.
+     *
+     * @var string
+     */
+    private $keywords;
+
+    /**
+     * (Optional) If the document was converted to PDF from another format,
+     * the name of the conforming product that created the original document
+     * from which it was converted.
+     *
+     * @var string
+     */
+    private $creator;
+
+    /**
+     * (Optional) If the document was converted to PDF from another format,
+     * the name of the conforming product that converted it to PDF.
+     *
+     * @var string
+     */
+    private $producer;
+
+    /**
+     * (Optional) The date and time the document was created, in human-
+     * readable form (see 7.9.4, "Dates").
+     *
+     * @var \DateTime
+     */
+    private $creationDate;
+
+    /**
+     * (Required if PieceInfo is present in the document catalogue;
+     * otherwise optional; PDF 1.1) The date and time the document was
+     * most recently modified, in human-readable form (see 7.9.4, "Dates").
+     *
+     * @var \DateTime
+     */
+    private $modDate;
+
+    /**
+     * (Optional; PDF 1.3) A name object indicating whether the document
+     * has been modified to include trapping information (see 14.11.6,
+     * "Trapping Support"):
+     *     True     The document has been fully trapped; no further trapping
+     *              shall be needed. This shall be the name True, not the
+     *              boolean value true.
+     *     False    The document has not yet been trapped. This shall be the
+     *              name False, not the boolean value false.
+     *     Unknown  Either it is unknown whether the document has been
+     *             trapped or it has been partly but not yet fully trapped; some
+     *             additional trapping may still be needed.
+     * Default value: Unknown.
+     *
+     * @var Name
+     */
+    private $trapped;
+
     public function __construct()
     {
         if (isset($_SERVER['USER'])) {
@@ -33,7 +113,7 @@ class Information extends TypedDictionary
      */
     public function getTitle()
     {
-        return $this->offsetGet('Title');
+        return $this->title;
     }
 
     /**
@@ -43,7 +123,7 @@ class Information extends TypedDictionary
      */
     public function setTitle($title)
     {
-        $this->offsetSet('Title', $title);
+        $this->title = $title;
     }
 
     /**
@@ -53,7 +133,7 @@ class Information extends TypedDictionary
      */
     public function getAuthor()
     {
-        return $this->offsetGet('Author');
+        return $this->author;
     }
 
     /**
@@ -63,7 +143,7 @@ class Information extends TypedDictionary
      */
     public function setAuthor($author)
     {
-        $this->offsetSet('Author', $author);
+        $this->author = $author;
     }
 
     /**
@@ -73,7 +153,7 @@ class Information extends TypedDictionary
      */
     public function getSubject()
     {
-        return $this->offsetGet('Subject');
+        return $this->subject;
     }
 
     /**
@@ -82,7 +162,7 @@ class Information extends TypedDictionary
      */
     public function setSubject($subject)
     {
-        $this->offsetSet('Subject', $subject);
+        $this->subject = $subject;
     }
 
     /**
@@ -92,7 +172,7 @@ class Information extends TypedDictionary
      */
     public function getKeywords()
     {
-        return $this->offsetGet('Keywords');
+        return $this->keywords;
     }
 
     /**
@@ -101,7 +181,7 @@ class Information extends TypedDictionary
      */
     public function setKeywords($keywords)
     {
-        $this->offsetSet('Keywords', $keywords);
+        $this->keywords = $keywords;
     }
 
     /**
@@ -113,7 +193,7 @@ class Information extends TypedDictionary
      */
     public function getCreator()
     {
-        return $this->offsetGet('Creator');
+        return $this->creator;
     }
 
     /**
@@ -122,7 +202,7 @@ class Information extends TypedDictionary
      */
     public function setCreator($creator)
     {
-        $this->offsetSet('Creator', $creator);
+        $this->creator = $creator;
     }
 
     /**
@@ -133,17 +213,17 @@ class Information extends TypedDictionary
      */
     public function getProducer()
     {
-        return $this->offsetGet('Producer');
+        return $this->producer;
     }
 
     /**
      * See getter
      *
-     * @param string $creator
+     * @param string $producer
      */
-    public function setProducer($creator)
+    public function setProducer($producer)
     {
-        $this->offsetSet('Producer', $creator);
+        $this->producer = $producer;
     }
 
     /**
@@ -154,7 +234,7 @@ class Information extends TypedDictionary
      */
     public function getCreationDate()
     {
-        return $this->offsetGet('CreationDate');
+        return $this->creationDate;
     }
 
     /**
@@ -163,7 +243,7 @@ class Information extends TypedDictionary
      */
     public function setCreationDate(\DateTime $date)
     {
-        $this->offsetSet('CreationDate', $date);
+        $this->creationDate = $date;
     }
 
     /**
@@ -175,7 +255,7 @@ class Information extends TypedDictionary
      */
     public function getModDate()
     {
-        return $this->offsetGet('ModDate');
+        return $this->modDate;
     }
 
     /**
@@ -184,7 +264,7 @@ class Information extends TypedDictionary
      */
     public function setModDate(\DateTime $date)
     {
-        $this->offsetSet('ModDate', $date);
+        $this->modDate = $date;
     }
 
     /**
@@ -205,7 +285,7 @@ class Information extends TypedDictionary
      */
     public function getTrapped()
     {
-        return $this->offsetGet('Trapped');
+        return $this->trapped;
     }
 
     /**
@@ -214,11 +294,26 @@ class Information extends TypedDictionary
      */
     public function setTrapped($trapped)
     {
-        $this->offsetSet('Trapped', Name::by($trapped));
+        $this->trapped = Name::by($trapped);
+    }
+
+    public function isOnlyIndirectlyReferencable()
+    {
+        return true;
     }
 
     protected function getStaticDictionaryFields()
     {
-        return array();
+        return array(
+            'Author',
+            'CreationDate',
+            'Creator',
+            'Keywords',
+            'ModDate',
+            'Producer',
+            'Subject',
+            'Title',
+            'Trapped',
+        );
     }
 }
