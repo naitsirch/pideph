@@ -16,6 +16,10 @@ class GeneratorTest extends \PHPUnit_Framework_TestCase
      */
     public function testHtmlLoading($filename)
     {
+        $this->markTestIncomplete(
+          'This test has not been implemented yet.'
+        );
+
         $html = file_get_contents($filename);
         $gen = Generator::fromHtml($html);
     }
