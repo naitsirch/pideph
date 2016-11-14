@@ -1,0 +1,13 @@
+<svg width="790" height="290" xmlns="http://www.w3.org/2000/svg">
+ <g>
+  <title>background</title>
+  <rect x="0" y="0" width="790" height="290" id="canvas_background" fill="none"/>
+ </g>
+ <g>
+  <title>pideph logo</title>
+  <path id="svg_3" d="m35,11l140,0l0,240l-168,0l0,-210l28,-30zl0,31l-30,0" fill-opacity="null" stroke-opacity="null" stroke-width="4.5" stroke="#999" fill="#fff"/>
+  <text y="228" x="36.5" font-style="italic" font-family="Helvetica, Arial, sans-serif" font-size="250" stroke-opacity="null" stroke-width="0" stroke="#000">
+    <tspan fill="#d03030">p</tspan><tspan fill="#000">ideph</tspan>
+  </text>
+ </g>
+</svg>
