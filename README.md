@@ -1,4 +1,4 @@
-# ![pideph](https://raw.githubusercontent.com/naitsirch/pideph/master/doc/logo.svg)
+# pideph
 
 ## Unit Tests
 
