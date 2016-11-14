@@ -1,4 +1,4 @@
-# ![pideph](https://raw.githubusercontent.com/naitsirch/pideph/master/doc/logo.svg | width=50)
+# ![pideph](https://raw.githubusercontent.com/naitsirch/pideph/master/doc/logo.svg)
 
 ## Unit Tests
 
